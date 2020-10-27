@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do JS App</title>
+    <style>
+        .toDoInput {
+            display: flex;
+            flex-direction: column;
+        }
+        
+    </style>
+</head>
+<!-- This is a simple javascript to-do app. Goal of the project is to create an input field and a button.
+When button is pressed and an input field has been filled out, add the item to a list of items which is displayed on the page.
+Add delete button item button to each item.
+-->
+<body>
+    <div class="toDoInput">
+        <label for="toDoItem">Please enter your to do things here.</label>
+        <input type="text" name="toDoItem" id="toDoItem">
+        <button class="submitBtn">Submit</button>
+    </div>
+
+    <div class="toDoList">
+        <ol class="listBody">
+            
+        </ol>
+    </div>
+
+
+    <script>
+        /* Create neccesary variables, selecting input field, input button, and the output field */
+        const inputButton = document.querySelector('.submitBtn');
+        const inputField = document.querySelector('#toDoItem');
+        const outputField = document.querySelector('.listBody');
+        const itemList = [];
+        let deleteButton = document.querySelectorAll(".deleteButton");
+
+        /* Store the value of the input field in an array on click of the button */
+        inputButton.addEventListener('click', function() {
+            /* Create a list item */
+            const createListItem = document.createElement('li');
+            /* Store the input field value */
+            const inputFieldValue = inputField.value;
+            /* Create a button */
+            const createButton = document.createElement("BUTTON");
+            /* Add text content to the button */
+            createButton.classList.add("deleteButton");
+            createButton.innerText = createButton.textContent = "x";
+            /* Add inputFieldValue as a text in the list item */
+            createListItem.appendChild(document.createTextNode(inputFieldValue));
+            createListItem.appendChild(createButton);
+            outputField.appendChild(createListItem);
+            /* Update node list of delete buttons on each click */
+            deleteButton = document.querySelectorAll(".deleteButton");
+            /* Delete the item on the click of the delete button */
+            deleteButton.forEach(button => {
+                /* On click of a button remove parent element */
+                button.addEventListener('click', function() {
+                    button.parentElement.remove();
+                });
+            });
+        });
+        
+    </script>
+</body>
+</html>
