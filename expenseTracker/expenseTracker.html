@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense tracker</title>
+    <style>
+        ul {
+            list-style-type: none;
+            border: 1px solid red;
+        }
+        ul li {
+            display: flex;
+            align-items: row;
+            justify-content: space-around;
+        }
+    </style>
+</head>
+<!-- Create an expense tracker app. Use an input field for a number and a description of the expense. -->
+<body>
+    <h1>Hey this is a small expense tracking app done via JavaScript</h1>
+    <div class="expenseTracker">
+        <div class="container">
+            <label for="expenseAmount">How much did you spend?</label>
+            <input type="number" name="exepnseAmount" id="expenseAmount">    
+        </div>
+        <div class="container">
+            <label for="expenseDescription">What did you spend it on? (Maximum 25 characters)</label>
+            <input type="text" name="expenseDescription" id="expenseDescription" maxlength="25">    
+        </div>
+        <div class="container">
+            <button class="addButton">Add</button>
+        </div>
+        <div class="container" id="spendingTracker">
+            
+        </div>
+    </div>
+<script>
+/* Amount spent object which will hold all the required inforamtion. */
+let amountSpent = {
+    entries: {
+
+    }
+}
+/* Entry constructor */
+function Entry(value, desc) {
+    this.amount = value;
+    this.description = desc;
+}
+document.querySelector('.addButton').addEventListener('click', function() {
+    /* Get the date object to create a timestamp */
+    let currentDate = new Date();
+    /* Create a time stamp to keep track of entries */
+    let timeStamp = currentDate.getHours() + ':' + currentDate.getMinutes() + ':' + currentDate.getSeconds() + ' ' + currentDate.getDate() + '/' + currentDate.getMonth() + '/' + currentDate.getFullYear();
+    /* Create a new Entry object in entries with the timeStamp as a name */
+    amountSpent.entries[timeStamp] = new Entry(document.querySelector('#expenseAmount').value, document.querySelector('#expenseDescription').value);
+})
+
+
+
+</script>    
+</body>
+</html>
