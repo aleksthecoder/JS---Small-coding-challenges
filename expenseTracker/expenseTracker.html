@@ -69,6 +69,7 @@ document.querySelector('.addButton').addEventListener('click', function() {
     let timeStamp = currentDate.getHours() + ':' + currentDate.getMinutes() + ':' + currentDate.getSeconds() + ' ' + currentDate.getDate() + '/' + currentDate.getMonth() + '/' + currentDate.getFullYear();
     /* Create a new Entry object in entries with the timeStamp as a name */
     amountSpent.entries[timeStamp] = new Entry(document.querySelector('#expenseAmount').value, document.querySelector('#expenseDescription').value); 
+    /* On click update the total value using findTotalSpent function */
     findTotalSpent();
 })
 
