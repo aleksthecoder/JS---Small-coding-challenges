@@ -38,25 +38,39 @@
 <script>
 /* Amount spent object which will hold all the required inforamtion. */
 let amountSpent = {
-    entries: {
-
-    }
+    entries: {},
+    total: 0
 }
 /* Entry constructor */
 function Entry(value, desc) {
     this.amount = value;
     this.description = desc;
 }
+/* Find total amount spent function */
+function findTotalSpent() {
+    /* Reference to entries in the storage object */
+    let entries = Object.values(amountSpent.entries);
+    /* Create an empty array to store numerical values */
+    let array = [];
+    /* Iterate throw entries */
+    for (const entry of entries) {
+        /* Push amount value as integer in to empty Array */
+        array.push(parseInt(entry.amount));
+    }
+    /* Reduce the created array to find a total amount spent and update it. */
+    amountSpent.total = array.reduce((a, b) => a + b, 0);
+}
+
+/* Event listener for when the user submits information */
 document.querySelector('.addButton').addEventListener('click', function() {
     /* Get the date object to create a timestamp */
     let currentDate = new Date();
     /* Create a time stamp to keep track of entries */
     let timeStamp = currentDate.getHours() + ':' + currentDate.getMinutes() + ':' + currentDate.getSeconds() + ' ' + currentDate.getDate() + '/' + currentDate.getMonth() + '/' + currentDate.getFullYear();
     /* Create a new Entry object in entries with the timeStamp as a name */
-    amountSpent.entries[timeStamp] = new Entry(document.querySelector('#expenseAmount').value, document.querySelector('#expenseDescription').value);
+    amountSpent.entries[timeStamp] = new Entry(document.querySelector('#expenseAmount').value, document.querySelector('#expenseDescription').value); 
+    findTotalSpent();
 })
-
-
 
 </script>    
 </body>
