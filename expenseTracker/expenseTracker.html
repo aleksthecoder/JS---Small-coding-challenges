@@ -54,7 +54,7 @@ function createNewEntry() {
 /* Get the date object to create a timestamp */
     let currentDate = new Date();
     /* Create a time stamp to keep track of entries */
-    let timeStamp = currentDate.getHours() + ':' + currentDate.getMinutes() + ':' + currentDate.getSeconds() + ' ' + currentDate.getDate() + '/' + currentDate.getMonth() + '/' + currentDate.getFullYear();
+    let timeStamp = currentDate.getHours() + ':' + currentDate.getMinutes() + ':' + currentDate.getSeconds() + ':' + currentDate.getMilliseconds() + ' '  + currentDate.getDate() + '/' + currentDate.getMonth() + '/' + currentDate.getFullYear();
     /* Create a new Entry object in entries with the timeStamp as a name */
     amountSpent.entries[timeStamp] = new Entry(document.querySelector('#expenseAmount').value, document.querySelector('#expenseDescription').value); 
     /* Reference to entries in the storage object */
