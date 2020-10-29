@@ -32,20 +32,48 @@
             <button class="addButton">Add</button>
         </div>
         <div class="container" id="spendingTracker">
-            
+            <div class="journalTotal"></div>
         </div>
     </div>
 <script>
 /* Amount spent object which will hold all the required inforamtion. */
 let amountSpent = {
-    entries: {},
-    total: 0
+    entries: {}, /* Hold all the entries with a timestamp */
+    createEntry: createNewEntry, /* Create new entry function */
+    findTotal: findTotalSpent, /* Find total spent */
 }
+
 /* Entry constructor */
 function Entry(value, desc) {
     this.amount = value;
     this.description = desc;
 }
+
+/* Create new entry */
+function createNewEntry() {
+/* Get the date object to create a timestamp */
+    let currentDate = new Date();
+    /* Create a time stamp to keep track of entries */
+    let timeStamp = currentDate.getHours() + ':' + currentDate.getMinutes() + ':' + currentDate.getSeconds() + ':' + currentDate.getMilliseconds() + ' '  + currentDate.getDate() + '/' + currentDate.getMonth() + '/' + currentDate.getFullYear();
+    /* Create a new Entry object in entries with the timeStamp as a name */
+    amountSpent.entries[timeStamp] = new Entry(document.querySelector('#expenseAmount').value, document.querySelector('#expenseDescription').value); 
+    /* Reference to entries in the storage object */
+    let entries = Object.values(amountSpent.entries);
+    /* Store the HTML reference to be used to print the values in HTML */
+    const spendingTracker = document.querySelector('#spendingTracker');
+    /* Create a new div */
+    const createDiv = document.createElement('div');
+    /* Iterate throw entires array, Append new Div to HTML reference with inner HTML value
+    which is the entry */
+    for (const entry of entries) {
+        spendingTracker.appendChild(createDiv).innerHTML = timeStamp + " " + entry.description + " " + entry.amount;
+    }
+    /* Execute findTotal function on each entry */
+    amountSpent.findTotal();
+    /* Print the value of total in to HTML */
+    document.querySelector('.journalTotal').innerHTML = amountSpent.total;
+}
+
 /* Find total amount spent function */
 function findTotalSpent() {
     /* Reference to entries in the storage object */
@@ -63,13 +91,7 @@ function findTotalSpent() {
 
 /* Event listener for when the user submits information */
 document.querySelector('.addButton').addEventListener('click', function() {
-    /* Get the date object to create a timestamp */
-    let currentDate = new Date();
-    /* Create a time stamp to keep track of entries */
-    let timeStamp = currentDate.getHours() + ':' + currentDate.getMinutes() + ':' + currentDate.getSeconds() + ' ' + currentDate.getDate() + '/' + currentDate.getMonth() + '/' + currentDate.getFullYear();
-    /* Create a new Entry object in entries with the timeStamp as a name */
-    amountSpent.entries[timeStamp] = new Entry(document.querySelector('#expenseAmount').value, document.querySelector('#expenseDescription').value); 
-    findTotalSpent();
+    amountSpent.createEntry();
 })
 
 </script>    
