@@ -26,6 +26,12 @@
            justify-content: space-between;
            padding: 1%;
        }
+       button, input {
+           height: 10vh;
+       }
+       button, input, .journalEntry {
+            margin-top: 1%;
+       }
     </style>
 </head>
 <!-- Create an expense tracker app. Use an input field for a number and a description of the expense. -->
@@ -34,11 +40,11 @@
         <h1>JavaScript expense tracker</h1>
         <div class="container">
             <label for="expenseAmount">How much did you spend?</label>
-            <input type="number" name="exepnseAmount" id="expenseAmount">    
+            <input type="number" name="exepnseAmount" id="expenseAmount" required>    
         </div>
         <div class="container">
             <label for="expenseDescription">What did you spend it on? (Maximum 25 characters)</label>
-            <input type="text" name="expenseDescription" id="expenseDescription" maxlength="25">    
+            <input type="text" name="expenseDescription" id="expenseDescription" maxlength="25" required>    
         </div>
         <div class="container">
             <button class="addButton">Add</button>
@@ -69,8 +75,16 @@ function createNewEntry() {
     let currentDate = new Date();
     /* Create a time stamp to keep track of entries */
     let timeStamp = currentDate.getHours() + ':' + currentDate.getMinutes() + ':' + currentDate.getSeconds() + ':' + currentDate.getMilliseconds() + ' '  + currentDate.getDate() + '/' + currentDate.getMonth() + '/' + currentDate.getFullYear();
-    /* Create a new Entry object in entries with the timeStamp as a name */
-    amountSpent.entries[timeStamp] = new Entry(document.querySelector('#expenseAmount').value, document.querySelector('#expenseDescription').value); 
+    /* Using logic to check if values filled out. */
+    if(document.querySelector('#expenseAmount').value && document.querySelector('#expenseDescription').value) {
+        /* Create a new Entry object in entries with the timeStamp as a name. */
+        amountSpent.entries[timeStamp] = new Entry(document.querySelector('#expenseAmount').value, document.querySelector('#expenseDescription').value); 
+    } else {
+        /* Generate alert if fields not filled out */
+        alert("Please fill out required fields.");
+        /* Return false to prevent further execution if logic fails */
+        return false;
+    }
     /* Reference to entries in the storage object */
     let entries = Object.values(amountSpent.entries);
     /* Store the HTML reference to be used to print the values in HTML */
@@ -84,7 +98,6 @@ function createNewEntry() {
     for (const entry of entries) {
         spendingTracker.appendChild(createDiv).innerHTML = "<div class='entrySection'>" + "<div>Date created:</div>" + '<div>' + timeStamp + '</div>' + "</div>" + " " + "<div class='entrySection'>" + "<div>Entry description:</div>" + '<div>' + entry.description + '</div>' + "</div>" + " " + "<div class='entrySection'>" + "<div>Ammount:</div>" + '<div>' + entry.amount + '</div>' + "</div>";
     }
-    
 }
 
 /* Find total amount spent function */
