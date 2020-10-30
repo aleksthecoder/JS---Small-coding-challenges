@@ -5,21 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Expense tracker</title>
     <style>
-        ul {
-            list-style-type: none;
-            border: 1px solid red;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        ul li {
-            display: flex;
-            align-items: row;
-            justify-content: space-around;
-        }
+       .expenseTracker, .container, #spendingTracker, .journalEntry {
+           display: flex;
+           flex-direction: column;
+       }
+       .expenseTracker {
+           width: 75vw;
+           margin: auto;
+       }
+       .journalEntry {           
+           border: 1px solid black;
+       }
+       .entrySection {
+           display: flex;
+           justify-content: space-between;
+           padding: 1%;
+       }
     </style>
 </head>
 <!-- Create an expense tracker app. Use an input field for a number and a description of the expense. -->
 <body>
-    <h1>Hey this is a small expense tracking app done via JavaScript</h1>
     <div class="expenseTracker">
+        <h1>JavaScript expense tracker</h1>
         <div class="container">
             <label for="expenseAmount">How much did you spend?</label>
             <input type="number" name="exepnseAmount" id="expenseAmount">    
@@ -32,15 +44,17 @@
             <button class="addButton">Add</button>
         </div>
         <div class="container" id="spendingTracker">
-            <div class="journalTotal"></div>
         </div>
+        <div class="journalTotal"></div>
+
     </div>
 <script>
 /* Amount spent object which will hold all the required inforamtion. */
 let amountSpent = {
     entries: {}, /* Hold all the entries with a timestamp */
+    total: 0,
     createEntry: createNewEntry, /* Create new entry function */
-    findTotal: findTotalSpent, /* Find total spent */
+    findTotal: findTotalSpent /* Find total spent */
 }
 
 /* Entry constructor */
@@ -51,7 +65,7 @@ function Entry(value, desc) {
 
 /* Create new entry */
 function createNewEntry() {
-/* Get the date object to create a timestamp */
+    /* Get the date object to create a timestamp */
     let currentDate = new Date();
     /* Create a time stamp to keep track of entries */
     let timeStamp = currentDate.getHours() + ':' + currentDate.getMinutes() + ':' + currentDate.getSeconds() + ':' + currentDate.getMilliseconds() + ' '  + currentDate.getDate() + '/' + currentDate.getMonth() + '/' + currentDate.getFullYear();
@@ -63,15 +77,14 @@ function createNewEntry() {
     const spendingTracker = document.querySelector('#spendingTracker');
     /* Create a new div */
     const createDiv = document.createElement('div');
+    /* Add a journalEntry class to the newly created journal entry */
+    createDiv.classList.add('journalEntry');
     /* Iterate throw entires array, Append new Div to HTML reference with inner HTML value
     which is the entry */
     for (const entry of entries) {
-        spendingTracker.appendChild(createDiv).innerHTML = timeStamp + " " + entry.description + " " + entry.amount;
+        spendingTracker.appendChild(createDiv).innerHTML = "<div class='entrySection'>" + "<div>Date created:</div>" + '<div>' + timeStamp + '</div>' + "</div>" + " " + "<div class='entrySection'>" + "<div>Entry description:</div>" + '<div>' + entry.description + '</div>' + "</div>" + " " + "<div class='entrySection'>" + "<div>Ammount:</div>" + '<div>' + entry.amount + '</div>' + "</div>";
     }
-    /* Execute findTotal function on each entry */
-    amountSpent.findTotal();
-    /* Print the value of total in to HTML */
-    document.querySelector('.journalTotal').innerHTML = amountSpent.total;
+    
 }
 
 /* Find total amount spent function */
@@ -87,11 +100,15 @@ function findTotalSpent() {
     }
     /* Reduce the created array to find a total amount spent and update it. */
     amountSpent.total = array.reduce((a, b) => a + b, 0);
+    /* Print the value of total in to HTML */
+    document.querySelector('.journalTotal').innerHTML = "Total spent: " + amountSpent.total;
 }
 
 /* Event listener for when the user submits information */
 document.querySelector('.addButton').addEventListener('click', function() {
+    /* Execute findTotal function on each entry */
     amountSpent.createEntry();
+    amountSpent.findTotal();
 })
 
 </script>    
