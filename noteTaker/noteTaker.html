@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A simple note taking app.</title>
+    <style>
+
+    </style>
+</head>
+<body>
+    <!-- A simple note taking application. Add/Delete a note.
+         Show all notes in a list, when note clicked show full note.-->
+    <div class="noteTakingApp">
+        <h1>A small note taking app.</h1>
+        <div class="inputArea">
+            <label for="noteTitle">Note title</label>
+            <input type="text" name="noteTitle" id="noteTitle">
+            <textArea id="textArea" rows='15' cols="50">
+
+            </textArea>
+            <button id="addNoteButton">Submit</button>
+        </div>
+        <div class="outputArea">
+
+        </div>
+    </div>
+    <script>
+
+    
+    // Storage object for noteTakingApp to store all values/entries and functionality.
+    let noteTakingApp = {
+        createNewEntry: createEntry,
+        generateId: generateId,
+        createDomEntries: createDomEntries,
+        entries: {}
+    };
+    // Constructor function for new Entries.
+    function Entry(noteId, noteTitle, noteContent) {
+        this.noteId = noteId,
+        this.noteTitle = noteTitle,
+        this.noteContent = noteContent
+    }
+    // Generate unique ID using date.
+    function generateId() {
+        // Get date object.
+        const currentDate = new Date();
+        // Generate noteId from date, Hours/Minutes/Seconds/Milliseconds + Date/Month/Year.
+        let noteId = currentDate.getHours() + ':' + currentDate.getMinutes() + ':' + currentDate.getSeconds() + ':' + currentDate.getMilliseconds() + ' '  + currentDate.getDate() + '/' + currentDate.getMonth() + '/' + currentDate.getFullYear();
+        // Return generated noteId.
+        return noteId;
+    }
+
+    function createEntry() {
+        // Create new entry with current date an time, entry stores noteId, noteTitle and noteContent within itself.
+        noteTakingApp.entries[noteTakingApp.generateId()] = new Entry(noteTakingApp.generateId(), document.querySelector('#noteTitle').value, document.querySelector('#textArea').value);
+    }
+
+    // Function to create dom elements from the list of entries stored in noteTakinApp.
+    function createDomEntries() {
+        // Convert to array.
+        const entries = Object.values(noteTakingApp.entries);
+        // Const to create div element.
+        const createDiv = document.createElement('div');
+        // Select outputArea.
+        const outputArea = document.querySelector('.outputArea');
+        // Loop throw entries.
+        entries.forEach(entry => {
+            // For each entry create a div element.
+            outputArea.appendChild(createDiv).id = noteTakingApp.generateId();
+            // Add content to innerHTML  of the newly created Div element.
+            document.getElementById(noteTakingApp.generateId()).innerHTML =
+                "<div class='entryTitle'>" + entry.noteTitle + '</div>' + 
+                '<div class="dateCreated">' + entry.noteId + '</div>' + '<button class="showMore">Show more</button>' ;
+        });
+
+        // const showMoreButtons = document.querySelectorAll('.showMore');
+        // showMoreButtons.forEach(button => {
+        //     const selector =  button.parentElement.id;
+        //     button.addEventListener('click', function() {
+        //         console.log('Hello World');
+        //     })
+        // });
+    }
+    
+    // Event listener for the submit button.
+    document.querySelector('#addNoteButton').addEventListener('click', function() {
+        noteTakingApp.createNewEntry();
+        noteTakingApp.createDomEntries();
+    });
+    
+    </script>
+</body>
+</html>
