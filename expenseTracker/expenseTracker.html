@@ -9,29 +9,51 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-size: 3vh;
         }
        .expenseTracker, .container, #spendingTracker, .journalEntry {
            display: flex;
            flex-direction: column;
        }
        .expenseTracker {
-           width: 75vw;
+           width: 50vw;
            margin: auto;
+           padding: 1vw;
+           border: 1px solid black;
        }
        .journalEntry {           
            border: 1px solid black;
+           padding: 1vw;
+
        }
        .entrySection {
            display: flex;
            justify-content: space-between;
-           padding: 1%;
+       }
+       input {
+           font-size: 75%;
        }
        button, input {
-           height: 10vh;
+           height: 5vh;
        }
        button, input, .journalEntry {
-            margin-top: 1%;
+            margin-top: 5%;
        }
+       .deleteButton {
+           height: 5vh;
+           width: 50%;
+           display: flex;
+           align-items: center;
+           justify-content: center;
+           font-weight: 700;
+           cursor: pointer;
+           border: 1px solid transparent;
+           margin: auto;
+       }
+       .deleteButton:hover {
+           border: 1px solid red;
+       }
+
     </style>
 </head>
 <!-- Create an expense tracker app. Use an input field for a number and a description of the expense. -->
@@ -49,8 +71,7 @@
         <div class="container">
             <button class="addButton">Add</button>
         </div>
-        <div class="container" id="spendingTracker">
-        </div>
+        <div class="container" id="spendingTracker"></div>
         <div class="journalTotal"></div>
 
     </div>
@@ -65,7 +86,7 @@ let amountSpent = {
 
 /* Entry constructor */
 function Entry(value, desc) {
-    this.amount = value;
+    this.amount = Number.parseFloat(value).toFixed(2) + " £" ;
     this.description = desc;
 }
 
@@ -91,13 +112,40 @@ function createNewEntry() {
     const spendingTracker = document.querySelector('#spendingTracker');
     /* Create a new div */
     const createDiv = document.createElement('div');
+    createDiv.id = timeStamp;
     /* Add a journalEntry class to the newly created journal entry */
     createDiv.classList.add('journalEntry');
     /* Iterate throw entires array, Append new Div to HTML reference with inner HTML value
     which is the entry */
     for (const entry of entries) {
-        spendingTracker.appendChild(createDiv).innerHTML = "<div class='entrySection'>" + "<div>Date created:</div>" + '<div>' + timeStamp + '</div>' + "</div>" + " " + "<div class='entrySection'>" + "<div>Entry description:</div>" + '<div>' + entry.description + '</div>' + "</div>" + " " + "<div class='entrySection'>" + "<div>Ammount:</div>" + '<div>' + entry.amount + '</div>' + "</div>";
+        spendingTracker.appendChild(createDiv).innerHTML = 
+        "<div class='entrySection'>" + 
+            "<div>Date created:</div>" + '<div>' + timeStamp +'</div>' + "</div>" 
+            + " " + 
+        "<div class='entrySection'>" + 
+            "<div>Entry description:</div>" + '<div>' + entry.description +'</div>' + "</div>" 
+            + " " + 
+        "<div class='entrySection'>" + 
+            "<div>Ammount:</div>" + '<div>' + entry.amount + '</div>' +"</div>" +
+            "<div class='deleteButton'>DELETE</div>";
     }
+
+
+    // Delete button //
+    // Select all delete buttons on the page. //
+    deleteButton = document.querySelectorAll(".deleteButton");
+    // Loop throw delete buttons stored in deleteButton
+    deleteButton.forEach(button => {
+        /* On click of the delete button, delete entry and parent element. After elements deleted update total. */
+        button.addEventListener('click', function() {
+                // Delete an entry in the entries.
+                delete amountSpent.entries[timeStamp];
+                // Remove parent element.
+                button.parentElement.remove()
+                // Refresh total amount. 
+                amountSpent.findTotal();
+        });
+    });    
 }
 
 /* Find total amount spent function */
@@ -114,7 +162,7 @@ function findTotalSpent() {
     /* Reduce the created array to find a total amount spent and update it. */
     amountSpent.total = array.reduce((a, b) => a + b, 0);
     /* Print the value of total in to HTML */
-    document.querySelector('.journalTotal').innerHTML = "Total spent: " + amountSpent.total;
+    document.querySelector('.journalTotal').innerHTML = "Total spent: " + Number.parseFloat(amountSpent.total).toFixed(2) + ' £';
 }
 
 /* Event listener for when the user submits information */
@@ -122,7 +170,9 @@ document.querySelector('.addButton').addEventListener('click', function() {
     /* Execute findTotal function on each entry */
     amountSpent.createEntry();
     amountSpent.findTotal();
-})
+});
+
+
 
 </script>    
 </body>
