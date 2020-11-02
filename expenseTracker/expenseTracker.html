@@ -138,11 +138,13 @@ function createNewEntry() {
     deleteButton.forEach(button => {
         /* On click of the delete button, delete entry and parent element. After elements deleted update total. */
         button.addEventListener('click', function() {
-                // Delete an entry in the entries.
-                delete amountSpent.entries[timeStamp];
-                // Remove parent element.
+                // Store button ID to use as a reference of the entry to delete. 
+                const buttonId = button.parentElement.id.toString();
+                // Delete specific entry from entries.
+                delete amountSpent.entries[buttonId];
+                // Remove parent element of the button.
                 button.parentElement.remove()
-                // Refresh total amount. 
+                // Recalculate total. 
                 amountSpent.findTotal();
         });
     });    
