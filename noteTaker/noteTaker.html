@@ -5,7 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A simple note taking app.</title>
     <style>
-
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            justify-content: center;
+            align-items: center;
+        }
+        body, .noteTakingApp, .inputArea, .outputArea {
+            display: flex;
+            flex-direction: column;
+        }
+        .noteTakingApp {
+            width: 80vw;
+        }
+        .entry {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+        .entryTitle, .dateCreated, .noteContent {
+            display: flex;
+            justify-content: center;
+            align-self: center;
+        }
+        .entryTitle {
+            width: 25%;
+        }
+        .datecreated {
+            width: 50%;
+        }
     </style>
 </head>
 <body>
@@ -30,9 +62,7 @@
     
     // Storage object for noteTakingApp to store all values/entries and functionality.
     let noteTakingApp = {
-        createNewEntry: createEntry,
-        generateId: generateId,
-        createDomEntries: createDomEntries,
+        createEntries: createEntries,
         entries: {}
     };
     // Constructor function for new Entries.
@@ -41,54 +71,62 @@
         this.noteTitle = noteTitle,
         this.noteContent = noteContent
     }
-    // Generate unique ID using date.
-    function generateId() {
+
+    function createEntries() {
+        // Generate unique ID using date.
         // Get date object.
         const currentDate = new Date();
         // Generate noteId from date, Hours/Minutes/Seconds/Milliseconds + Date/Month/Year.
         let noteId = currentDate.getHours() + ':' + currentDate.getMinutes() + ':' + currentDate.getSeconds() + ':' + currentDate.getMilliseconds() + ' '  + currentDate.getDate() + '/' + currentDate.getMonth() + '/' + currentDate.getFullYear();
-        // Return generated noteId.
-        return noteId;
-    }
-
-    function createEntry() {
         // Create new entry with current date an time, entry stores noteId, noteTitle and noteContent within itself.
-        noteTakingApp.entries[noteTakingApp.generateId()] = new Entry(noteTakingApp.generateId(), document.querySelector('#noteTitle').value, document.querySelector('#textArea').value);
-    }
-
-    // Function to create dom elements from the list of entries stored in noteTakinApp.
-    function createDomEntries() {
+        noteTakingApp.entries[noteId] = new Entry(noteId, document.querySelector('#noteTitle').value, document.querySelector('#textArea').value);
         // Convert to array.
         const entries = Object.values(noteTakingApp.entries);
         // Const to create div element.
         const createDiv = document.createElement('div');
+        createDiv.classList.add('entry')
         // Select outputArea.
         const outputArea = document.querySelector('.outputArea');
         // Loop throw entries.
         entries.forEach(entry => {
             // For each entry create a div element.
-            outputArea.appendChild(createDiv).id = noteTakingApp.generateId();
+            outputArea.appendChild(createDiv).id = noteId;
             // Add content to innerHTML  of the newly created Div element.
-            document.getElementById(noteTakingApp.generateId()).innerHTML =
+            document.getElementById(noteId).innerHTML =
                 "<div class='entryTitle'>" + entry.noteTitle + '</div>' + 
-                '<div class="dateCreated">' + entry.noteId + '</div>' + '<button class="showMore">Show more</button>' ;
+                '<div class="dateCreated">' + entry.noteId + '</div>' + '<div class="noteContent"> </div>' + '<button class="showMore">Show more</button>' + '<button class="deleteBtn">Delete</button>';                
+        });
+        // Select all showMore button.
+        const showMoreButtons = document.querySelectorAll('.showMore');
+        // Add a click event listener for each button.
+        showMoreButtons.forEach(button => {
+            // On click execute showNoteContent function.
+            button.addEventListener('click', showNoteContent);
         });
 
-        // const showMoreButtons = document.querySelectorAll('.showMore');
-        // showMoreButtons.forEach(button => {
-        //     const selector =  button.parentElement.id;
-        //     button.addEventListener('click', function() {
-        //         console.log('Hello World');
-        //     })
-        // });
+        // Select all Delete buttons.
+        const deleteButtons = document.querySelectorAll('.deleteBtn');
+        // Add a click event listener for each button.
+        deleteButtons.forEach(button => {
+            // On click execute showNoteContent function.
+            button.addEventListener('click', deleteNote);
+        });
     }
-    
+    // Show note content.
+    function showNoteContent() {
+        // Store parent element Id
+        const parentElement = this.parentElement.id;
+        confirm(noteTakingApp.entries[parentElement].noteContent);
+    }
+    function deleteNote() {
+        const parentElement = this.parentElement.id;
+        delete noteTakingApp.entries[parentElement];
+        this.parentElement.remove();
+    }
     // Event listener for the submit button.
     document.querySelector('#addNoteButton').addEventListener('click', function() {
-        noteTakingApp.createNewEntry();
-        noteTakingApp.createDomEntries();
+        noteTakingApp.createEntries();
     });
-    
     </script>
 </body>
 </html>
