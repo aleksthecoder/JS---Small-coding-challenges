@@ -19,24 +19,40 @@
             flex-direction: column;
         }
         .noteTakingApp {
-            width: 80vw;
+            width: 50vw;
+        }
+        #noteTitle {
+            height: 5vh;
+        }
+        #textArea {
+            margin-top: 1vw;
+        }
+        #addNoteButton {
+            width: 50%;
+            margin: auto;
+            margin-top: 1vh;
+            margin-bottom: 1vh;
+            height: 5vh;
         }
         .entry {
             display: flex;
             flex-direction: row;
             justify-content: space-evenly;
             align-items: center;
+            border: 1px solid black;
+            padding-top: 1vh;
+            padding-bottom: 1vh;
+            margin-bottom: 1vh;
         }
         .entryTitle, .dateCreated, .noteContent {
             display: flex;
             justify-content: center;
             align-self: center;
         }
-        .entryTitle {
-            width: 25%;
-        }
-        .datecreated {
-            width: 50%;
+        .showMore, .deleteBtn {
+            height: 5vh;
+            padding-left: 1vw;
+            padding-right: 1vw;
         }
     </style>
 </head>
@@ -94,7 +110,8 @@
             // Add content to innerHTML  of the newly created Div element.
             document.getElementById(noteId).innerHTML =
                 "<div class='entryTitle'>" + entry.noteTitle + '</div>' + 
-                '<div class="dateCreated">' + entry.noteId + '</div>' + '<div class="noteContent"> </div>' + '<button class="showMore">Show more</button>' + '<button class="deleteBtn">Delete</button>';                
+                '<div class="dateCreated">' + entry.noteId + '</div>' + '<div class="noteContent"> </div>' + 
+                '<button class="showMore">Show more</button>' + '<button class="deleteBtn">Delete</button>';                
         });
         // Select all showMore button.
         const showMoreButtons = document.querySelectorAll('.showMore');
