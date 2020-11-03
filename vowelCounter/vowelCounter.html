@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vowel Counter</title>
+    <style>
+
+    </style>
+</head>
+<body>
+    <h1>Simple vowel counter.</h1>
+    <div class="vowelCounter">
+        <label for="inputField">Input: </label>
+        <input type="text" name="inputField" id="inputField" required>
+        <button class="submitBtn">Submit</button>
+        <div class="output"></div>
+    </div>
+    <script>
+        // Count vowels function.
+        function countVowels() {
+            // Get the input value of the input text field, split it in to characters.
+            const userInput = document.querySelector('#inputField').value.split('');
+            // Vowel counter.
+            let counter = 0;
+            // Use a for each loop to check if the character in userInput is a vowel.
+            userInput.forEach(character => {
+                // If character equals A/E/I/O/U add 1 to counter.
+                if(character.toLowerCase() === 'a' ||
+                character.toLowerCase() === 'e' ||
+                character.toLowerCase() === 'i' || 
+                character.toLowerCase() === 'o' || 
+                character.toLowerCase() === 'u') {
+                    counter += 1;
+                } else {
+                    return false;
+                }
+            });
+            // Add counter to the output div.
+            document.querySelector('.output').innerHTML = 'Number of vowels: ' + counter;
+        }
+        // On click event listener for the submitBtn
+        document.querySelector('.submitBtn').addEventListener('click', countVowels);
+    </script>
+</body>
+</html>
+
