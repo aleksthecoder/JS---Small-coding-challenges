@@ -6,15 +6,32 @@
     <title>Memory game</title>
     <style>
         .fas {
-            font-size: 25vw;
+            width: 30%;
+            font-size: 15vw;
+            padding: 1vw;
+            border: 1px solid red;
+            text-align: center;
         }
-
+        .memoryGame {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            border: 1px solid red;
+            text-align: center;
+        }
+        .hidden {
+            background-color: black;
+        }
     </style>
 </head>
 <body>
-    <h1>Memory game.</h1>
     <div class="memoryGame">
-        <div class="output"></div>
+        <div class="output">
+
+        </div>
+        <button>Reset</button>
     </div>
     
 
@@ -24,11 +41,8 @@
     <script>
         // Create a memory game, display six images/icons. Player must match two images.
         // Use fontAwesome for icons.
-        const memoryGame = {
-            iconClassList : ['fa-fan', 'fa-bell', 'fa-plane'],
-        }
         // Create a function, that creates elements..
-        function createIconArray() {
+        function createElements() {
             // Create an array containing a list of fontAwesome icon classes to be applied to newly created divs.
             const iconClassList = ['fa-fan', 'fa-bell', 'fa-plane'];
             // Create a variable to store the shuffled version of the iconClassList.
@@ -47,6 +61,10 @@
             populatedIconClassList.forEach(iconClass => {
                 createDivWithStyle(iconClass);
             });
+        }
+
+        // Function to store user answers and check if the answers match
+        function checkUserAnswers() {
             // Select all icon elements
             const iconElements = document.querySelectorAll('.fas');
             // Variable to store user answers
@@ -56,6 +74,7 @@
                 // Add a click event listener
                 iconElement.addEventListener('click', function() {
                     // Store users choice
+                    this.classList.toggle('hidden');
                     const userChoice = this.classList[1];
                     // If user answer length is 1
                     if(userAnswers.length === 1) {
@@ -75,22 +94,35 @@
                         userAnswers.push(userChoice);
                     }   
                 })
-            });         
+            }); 
         }
+
         // Function to shuffle array.
         function shuffleArray(array) {
             array.sort(() => Math.random() - 0.5);
         }
+
         // Create a function that creates div's with the class provided.
         function createDivWithStyle(styleClass) {
             const createDiv = document.createElement('div');
-            createDiv.classList.add('fas', styleClass);
+            createDiv.classList.add('fas', styleClass, 'hidden');
             document.querySelector('.output').appendChild(createDiv);
         }
 
-        document.querySelector('.output').innerHTML = '';
-        createIconArray();
 
+        // Function create game 
+        function createGame() {
+            document.querySelector('.output').innerHTML = '';
+            createElements();
+            checkUserAnswers(); 
+            console.log('Hello World');
+        }
+        
+
+        document.querySelector('button').addEventListener('click', function(){
+            createGame();
+        });
+        createGame();
     </script>
 </body>
 </html>
