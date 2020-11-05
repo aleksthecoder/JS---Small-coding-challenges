@@ -5,29 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Memory game</title>
     <style>
+        h1 {
+            text-transform: uppercase;
+        }
         .fas {
             width: 30%;
             font-size: 15vw;
             padding: 1vw;
-            border: 1px solid red;
             text-align: center;
+            border: 1px solid white;
         }
         .memoryGame {
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            height: 100vh;
-            border: 1px solid red;
+            height: 100%;
             text-align: center;
         }
         .hidden {
             background-color: black;
         }
+        button {
+            margin-top: 3%;
+            width: 50vw;
+            height: 5vh;
+        }
     </style>
 </head>
 <body>
     <div class="memoryGame">
+        <h1>Memory game</h1>
         <div class="output">
 
         </div>
@@ -82,11 +90,11 @@
                         userAnswers.push(userChoice);
                         // And check if user choices match.
                         if (userAnswers[0] === userAnswers[1]) {
-                            console.log('Yay');
+                            document.querySelector('h1').innerHTML = 'Correct';
                             // Reset user answers.
                             userAnswers = [];
                         } else {
-                            console.log('Nay');
+                            document.querySelector('h1').innerHTML = 'Incorrect';
                             // Reset user answers.
                             userAnswers = [];
                         }
@@ -96,27 +104,34 @@
                 })
             }); 
         }
-        
+
         // Create a function that creates div's with the class provided.
         function createDivWithStyle(styleClass) {
+            // Create div element
             const createDiv = document.createElement('div');
+            // Add style classes to the newly created div element
             createDiv.classList.add('fas', styleClass, 'hidden');
+            // Append newly created element to the output area
             document.querySelector('.output').appendChild(createDiv);
         }
 
 
         // Function create game 
         function createGame() {
+            document.querySelector('h1').innerHTML = 'Memory game';
+            // Delete previous output
             document.querySelector('.output').innerHTML = '';
+            // Create elements
             createElements();
+            // Check answers
             checkUserAnswers(); 
-            console.log('Hello World');
         }
         
-
+        // Reset button
         document.querySelector('button').addEventListener('click', function(){
             createGame();
         });
+
         createGame();
     </script>
 </body>
