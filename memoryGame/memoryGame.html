@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory game</title>
+    <style>
+        .fas {
+            font-size: 25vw;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Memory game.</h1>
+    <div class="memoryGame">
+        <div class="output"></div>
+    </div>
+    
+
+
+    <!-- Font awesome icons. -->
+    <script src="https://kit.fontawesome.com/a98b05ceb4.js" crossorigin="anonymous"></script>
+    <script>
+        // Create a memory game, display six images/icons. Player must match two images.
+        // Use fontAwesome for icons.
+        const memoryGame = {
+            iconClassList : ['fa-fan', 'fa-bell', 'fa-plane'],
+        }
+        // Create a function, that creates elements..
+        function createIconArray() {
+            // Create an array containing a list of fontAwesome icon classes to be applied to newly created divs.
+            const iconClassList = ['fa-fan', 'fa-bell', 'fa-plane'];
+            // Create a variable to store the shuffled version of the iconClassList.
+            let populatedIconClassList = [];
+            // For loop that loops twice
+            for (let a = 0; a < 2; a++) {
+                // Loop throw iconClassList
+                for (let index = 0; index < iconClassList.length; index++) {
+                    // Push each iconClass into populatedIconClassList
+                    populatedIconClassList.push(iconClassList[index]);
+                    // Shuffle the populatedIconClassList using sort and Math.random
+                    populatedIconClassList = populatedIconClassList.sort(() => Math.random() - 0.5);
+                }
+            }
+            // Create div for each item in the populatedIconClassList
+            populatedIconClassList.forEach(iconClass => {
+                createDivWithStyle(iconClass);
+            });
+            // Select all icon elements
+            const iconElements = document.querySelectorAll('.fas');
+            // Variable to store user answers
+            let userAnswers = [];
+            // For each item in the iconElements 
+            iconElements.forEach(iconElement => {
+                // Add a click event listener
+                iconElement.addEventListener('click', function() {
+                    // Store users choice
+                    const userChoice = this.classList[1];
+                    // If user answer length is 1
+                    if(userAnswers.length === 1) {
+                        // Push second userChoice
+                        userAnswers.push(userChoice);
+                        // And check if user choices match.
+                        if (userAnswers[0] === userAnswers[1]) {
+                            console.log('Yay');
+                            // Reset user answers.
+                            userAnswers = [];
+                        } else {
+                            console.log('Nay');
+                            // Reset user answers.
+                            userAnswers = [];
+                        }
+                    } else {
+                        userAnswers.push(userChoice);
+                    }   
+                })
+            });         
+        }
+        // Function to shuffle array.
+        function shuffleArray(array) {
+            array.sort(() => Math.random() - 0.5);
+        }
+        // Create a function that creates div's with the class provided.
+        function createDivWithStyle(styleClass) {
+            const createDiv = document.createElement('div');
+            createDiv.classList.add('fas', styleClass);
+            document.querySelector('.output').appendChild(createDiv);
+        }
+
+        document.querySelector('.output').innerHTML = '';
+        createIconArray();
+
+    </script>
+</body>
+</html>
