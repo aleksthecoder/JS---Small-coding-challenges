@@ -9,57 +9,98 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-size: 3vh;
         }
-       .expenseTracker, .container, #spendingTracker, .journalEntry {
-           display: flex;
-           flex-direction: column;
-       }
-       .expenseTracker {
-           width: 50vw;
-           margin: auto;
-           padding: 1vw;
-           border: 1px solid black;
-       }
-       .journalEntry {           
-           border: 1px solid black;
-           padding: 1vw;
+        :root {
+            --font-size: 2vw;
+        }
+        body {
+            background-color: #528185;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            align-items: center;
+        }
+        .expenseTracker {
+            background-color: #103342;
+            color: white;
+            width: 50%;
+        }
+        .container {
+            width: 100%;
+            display: flex;
+            padding: 2vw 5vw 2vw 5vw;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 5%;
+            font-size: var(--font-size);
 
-       }
-       .entrySection {
-           display: flex;
-           justify-content: space-between;
-       }
-       input {
-           font-size: 75%;
-       }
-       button, input {
-           height: 5vh;
-       }
-       button, input, .journalEntry {
-            margin-top: 5%;
-       }
-       .deleteButton {
-           height: 5vh;
-           width: 50%;
-           display: flex;
-           align-items: center;
-           justify-content: center;
-           font-weight: 700;
-           cursor: pointer;
-           border: 1px solid transparent;
-           margin: auto;
-       }
-       .deleteButton:hover {
-           border: 1px solid red;
-       }
+        }
+        input, button, .deleteButton {
+            height: 4vh;
+            border: none;
+            border-radius: 15px;
+            font-size: var(--font-size);
+        }
+        input {
+            outline: none;
+            border: 2px solid transparent;
+            padding-left: 2vw;
+        }
+        input:focus {
+            border: 2px solid #528185;
+        }
+        .addButton, .deleteButton {
+            outline: none;
+            background-color: #528185;
+            color: white;
 
+        }
+        .journalEntry {
+            display: flex;
+            flex-direction: column;
+            border-bottom: 1px solid #528185;
+            padding-bottom: 3vw;
+            padding-top: 3vw;
+        }
+        .deleteButton {
+            width: 10vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10%;
+        }
+        .entrySection {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+        .entrySection div {
+            font-size: var(--font-size);
+
+        }
+        @media only screen and (max-width: 450px) {
+            :root {
+                --font-size: 4vw;
+            }
+            .expenseTracker {
+                width: 100%;
+                min-height: 100vh;
+            }
+            .deleteButton {
+                width: 25vw;
+            }
+            input, button, .deleteButton {
+                height: vh;
+            }
+        }
     </style>
 </head>
 <!-- Create an expense tracker app. Use an input field for a number and a description of the expense. -->
 <body>
     <div class="expenseTracker">
-        <h1>JavaScript expense tracker</h1>
+        <div class="container"><h1>JavaScript expense tracker</h1></div>
+        
         <div class="container">
             <label for="expenseAmount">How much did you spend?</label>
             <input type="number" name="exepnseAmount" id="expenseAmount" required>    
@@ -72,7 +113,7 @@
             <button class="addButton">Add</button>
         </div>
         <div class="container" id="spendingTracker"></div>
-        <div class="journalTotal"></div>
+        <div class="container journalTotal"></div>
 
     </div>
 <script>
@@ -127,7 +168,7 @@ function createNewEntry() {
             + " " + 
         "<div class='entrySection'>" + 
             "<div>Ammount:</div>" + '<div>' + entry.amount + '</div>' +"</div>" +
-            "<div class='deleteButton'>DELETE</div>";
+            "<div class='deleteButton'>Delete</div>";
     }
 
 
