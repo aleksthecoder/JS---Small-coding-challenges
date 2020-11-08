@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple mortgage payment calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        main {
+            display: flex;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+            background-color: #fbf8f4;
+        }
+        .mortgagePaymentCalc {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            padding: 5vw;
+            background-color: #3a3537;
+            color: #fbf8f4;
+            border-radius: 5px;
+            box-shadow: 0 0 3px 1px black;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+        input {
+            padding-left: 1vw;
+            border: 2px solid transparent;
+
+        }
+        input:focus {
+            border: 2px solid #769fbe;
+        }
+        label, input {
+            width: 100%;
+            outline: none;
+        }
+        label, input, button {
+            margin-bottom: 3vh;
+        }
+        input, button {
+            height: 5vh;
+            border-radius: 5px;
+            border: none;
+        }
+        button {
+            width: 50vw;
+            outline: none;
+            background-color: #91dae2;
+        }
+        .calculation {
+            display: flex;
+            flex-direction: column;
+            background-color: #91dae2;
+            width: 65vw;
+            color: #3a3537;
+            padding: 2vw;
+            border-radius: 5px;
+        }
+        @media only screen and (min-width: 450px) {
+            .mortgagePaymentCalc {
+                width: 75vw;
+                height: auto;
+            }
+            button {
+                width: 15vw;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="mortgagePaymentCalc">
+            <div class="container">
+                <h1>Mortage payment calculator</h1>
+            </div>
+            <div class="container">
+                <label for="userIncome">Income (per annum)</label>
+                <input type="number" name="userIncome" id="userIncome" required>
+            </div>
+            <div class="container">
+                <label for="mortageTerm">Mortgage term (min 5yrs)</label>
+                <input type="number" name="mortgageTerm" id="mortgageTerm" min = '5' max = '25' required>
+            </div>
+            <div class="container">
+                <label for="mortgageRate">Mortgage rate (percentage)</label>
+                <input type="number" name="mortgageRate" id="mortgageRate" required>
+            </div>
+            <div class="container">
+                <button class="submitButton">Submit</button>
+            </div>
+            <div class="container" id="outputArea">
+    
+            </div>
+        </div>
+        
+    </main>
+
+
+
+
+    <script>
+        // mortgagePaymentCalculator object
+        let mortgagePaymentCalculator = {};
+
+        // Get values function which retrieves values from input fields and stores them in the mortgagePaymentCalculator object.
+        function getValues() {
+            mortgagePaymentCalculator.userIncome = document.querySelector('#userIncome').value;
+            mortgagePaymentCalculator.mortgageTerm  = document.querySelector('#mortgageTerm').value;
+            mortgagePaymentCalculator.maximumMortgageAmount = mortgagePaymentCalculator.userIncome * 4;
+            mortgagePaymentCalculator.mortgageRate = document.querySelector('#mortgageTerm').value / 1000;
+            mortgagePaymentCalculator.mortgageInterest = mortgagePaymentCalculator.mortgageRate * mortgagePaymentCalculator.maximumMortgageAmount / 12;
+            mortgagePaymentCalculator.mortgageMonthlyPayment = (mortgagePaymentCalculator.maximumMortgageAmount / mortgagePaymentCalculator.mortgageTerm) / 12;
+            mortgagePaymentCalculator.mortgagePayment = mortgagePaymentCalculator.mortgageInterest + mortgagePaymentCalculator.mortgageMonthlyPayment;
+        }
+
+        // Create elements function which creates HTML elements and displays informaiton stored in the mortgagePaymentCalculator object.
+        function createElements() {
+            const outputArea = document.querySelector('#outputArea');
+            const createDiv = document.createElement('div');
+
+            // Create maximum mortgage area.
+            outputArea.appendChild(createDiv).classList.add('output');
+            document.querySelector('.output').innerHTML =
+            '<div class="calculation">' 
+                + '<div>Maximum mortgage:</div>'
+                + '<div>' + mortgagePaymentCalculator.maximumMortgageAmount + '£' + '</div>'
+                + '<div>Monthly payment:</div>'
+                + '<div>' + mortgagePaymentCalculator.mortgageMonthlyPayment.toFixed(2) + '£' + '</div>'
+                + '<div>Monthly interest:</div>'
+                + '<div>' + mortgagePaymentCalculator.mortgageInterest.toFixed(2) + '£' + '</div>' 
+                + '<div>Total payment:</div>'
+                + '<div>' + mortgagePaymentCalculator.mortgagePayment.toFixed(2) + '£' + '</div>' 
+            + '</div>'            
+        }
+
+        // Click event listener
+        document.querySelector('.submitButton').addEventListener('click', function() {
+            // Reset calculator
+            delete mortgagePaymentCalculator;
+            // Get values
+            getValues();
+            // Create elements
+            createElements();
+        });
+    </script>
+</body>
+</html>

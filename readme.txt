@@ -5,3 +5,5 @@ Project Idea #2: Expense Tracker - Completed
 Project Idea #3: Note Taker - Completed
 Project Idea #4: Vowel Counter - Completed
 Project Idea #5: Memory Game - Completed
+
+Project IDea #6: Mortage Payment Calculator - Completed
