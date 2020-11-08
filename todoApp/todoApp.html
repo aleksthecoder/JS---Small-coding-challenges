@@ -5,11 +5,77 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To-Do JS App</title>
     <style>
-        .toDoInput {
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        main * {
             display: flex;
             flex-direction: column;
         }
-        
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #2e3d4f;
+        }
+        .toDoApp {
+            width: 90%;
+            min-height: 100vh;
+            background-color: #2e3d4f;
+            padding: 1vw;
+        }
+        .toDoInput {
+            background-color: #2e3d4f;
+            padding: 2vw 3vw 5vw 3vw;
+            color: white;
+        }
+        .submitField {
+            flex-direction: row;
+        }
+        #toDoItem, .submitBtn {
+            height: 5vh;
+        }
+        #toDoItem {
+            width: 75%;
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+            border: none;
+            padding-left: 1vw;
+        }
+        .submitBtn {
+            width: 25%;
+            justify-content: center;
+            align-items: center;
+            background-color: #359edb;
+            border: none;
+            color: white;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+        }
+        li {
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            height: 10vh;
+            background-color: #2e3d4f;
+            color: white;
+            padding: 3vw;
+            border: 1px solid #2294ab;
+            margin-top: 1%;
+
+        }
+        .deleteButton {
+            width: 5vw;
+            height: 5vw;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #2294ab;
+            background-color:  #2e3d4f;
+            color: #2294ab;
+            font-size: 2vw;
+        }
     </style>
 </head>
 <!-- This is a simple javascript to-do app. Goal of the project is to create an input field and a button.
@@ -17,17 +83,25 @@ When button is pressed and an input field has been filled out, add the item to a
 Add delete button item button to each item.
 -->
 <body>
-    <div class="toDoInput">
-        <label for="toDoItem">Please enter your to do things here.</label>
-        <input type="text" name="toDoItem" id="toDoItem">
-        <button class="submitBtn">Submit</button>
-    </div>
-
-    <div class="toDoList">
-        <ol class="listBody">
-            
-        </ol>
-    </div>
+    <main>
+        <div class="toDoApp">
+            <div class="toDoInput">
+                <div class="submitField">
+                    <input type="text" name="toDoItem" id="toDoItem" placeholder="Please enter your to do things here.">
+                    <button class="submitBtn">Submit</button>
+                </div>
+                
+            </div>
+        
+            <div class="toDoList">
+                <ul class="listBody">
+                    
+                </ul>
+            </div>
+        </div>
+    </main>
+    
+    
 
 
     <script>
