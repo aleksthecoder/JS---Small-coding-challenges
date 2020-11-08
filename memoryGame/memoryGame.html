@@ -31,6 +31,12 @@
             width: 50vw;
             height: 5vh;
         }
+        .correctAnswer {
+            background-color: green;
+        }
+        .incorrectAnswer {
+            background-color: red;
+        }
     </style>
 </head>
 <body>
@@ -39,7 +45,6 @@
         <div class="output">
 
         </div>
-        <button>Reset</button>
     </div>
     
 
@@ -81,22 +86,28 @@
             iconElements.forEach(iconElement => {
                 // Add a click event listener
                 iconElement.addEventListener('click', function() {
-                    // Store users choice
+                    // Toggle hidden class on click
                     this.classList.toggle('hidden');
+                    // Store users choice
                     const userChoice = this.classList[1];
                     // If user answer length is 1
                     if(userAnswers.length === 1) {
                         // Push second userChoice
                         userAnswers.push(userChoice);
+                        // Reset switch with delay.
+                        const resetSwitch = setTimeout(() => {createGame()}, 2000);
                         // And check if user choices match.
                         if (userAnswers[0] === userAnswers[1]) {
                             document.querySelector('h1').innerHTML = 'Correct';
                             // Reset user answers.
                             userAnswers = [];
+                            resetSwitch;
+                            
                         } else {
                             document.querySelector('h1').innerHTML = 'Incorrect';
                             // Reset user answers.
                             userAnswers = [];
+                            resetSwitch;                            
                         }
                     } else {
                         userAnswers.push(userChoice);
@@ -126,11 +137,6 @@
             // Check answers
             checkUserAnswers(); 
         }
-        
-        // Reset button
-        document.querySelector('button').addEventListener('click', function(){
-            createGame();
-        });
 
         createGame();
     </script>
