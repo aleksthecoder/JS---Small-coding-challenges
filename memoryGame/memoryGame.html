@@ -5,23 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Memory game</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         h1 {
             text-transform: uppercase;
+            color:#a1b0b4;
         }
         .fas {
             width: 30%;
             font-size: 15vw;
             padding: 1vw;
             text-align: center;
-            border: 1px solid white;
+            border: 1px solid #424853;
+            background-color: #a1b0b4;
+            
         }
         .memoryGame {
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            height: 100%;
+            height: 100vh;
             text-align: center;
+            background-color: #424853;
         }
         .hidden {
             background-color: black;
@@ -95,7 +104,7 @@
                         // Push second userChoice
                         userAnswers.push(userChoice);
                         // Reset switch with delay.
-                        const resetSwitch = setTimeout(() => {createGame()}, 2000);
+                        const resetSwitch = setTimeout(() => {createGame()}, 1000);
                         // And check if user choices match.
                         if (userAnswers[0] === userAnswers[1]) {
                             document.querySelector('h1').innerHTML = 'Correct';
