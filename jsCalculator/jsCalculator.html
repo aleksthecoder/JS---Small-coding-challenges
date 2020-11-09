@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --background-color: #17252c;
+            --secondary-color: #76a6a8;
+            --white-color: #f4efe0;
+
+        }
+        body {
+            background-color: var(--background-color);
+        }
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+        }
+        .calculator {
+            width: 100vw;
+            height: 100vh;
+            min-width: 55vw;
+            min-height: 80vh;
+            background-color: var(--secondary-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .outputField {
+            height: 10%;
+            width: 95%;
+            max-width: 95%;
+            background-color: var(--white-color);
+            display: flex;
+            padding-left: 4vw;
+            justify-content: flex-start;
+            align-items: center;
+            letter-spacing: 0.5vw;
+            font-size: 15vw;
+        }
+        .keypad {
+            height: auto;
+            width: 95%;
+            background-color: var(--background-color);
+            padding: 4vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .row {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+        .column {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+        .button {
+            height: 25vh;
+            max-height: 30vw;
+            width: 20vw;
+            max-width: 20vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 10vw;
+            color: var(--background-color);
+            background-color: var(--secondary-color);
+            border: 1px solid var(--white-color);
+            margin-top: 1vw;
+            cursor: default;
+        }
+        @media only screen and (min-width: 450px) {
+            
+            .calculator {
+                width: 50vw;
+                height: auto;
+            }
+            .outputField {
+                height: 15vh;
+                font-size: 7vw;
+            }
+            .keypad {
+                height: auto;
+            }
+            .button {
+                font-size: 5vw;
+                height: 10vh;
+                max-height: 10vh;
+                width: 10vw;
+                max-width: 10vw;
+            }
+        }
+        @media only screen and (min-width: 750px){
+            .outputField {
+                height: 10%;
+                font-size: 3vw;
+            }
+            .button {
+                font-size: 3vw;
+            }
+        }
+        @media only screen and (min-width: 1450px){
+            .calculator {
+                height: 90%;
+            }
+            .outputField {
+                height: 15%;
+                font-size: 5vw;
+            }
+            .button {
+                font-size: 4vw;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="calculator">
+            <div class="outputField">
+                
+            </div>
+            <div class="keypad">
+                <div class="row">
+                    <div class="button">+</div>
+                    <div class="button">-</div>
+                    <div class="button">*</div>
+                    <div class="button">/</div>
+                </div>
+                <div class="row">
+                    <div class="column">
+                        <div class="button">7</div>
+                        <div class="button">4</div>
+                        <div class="button">1</div>
+                    </div>
+                    <div class="column">
+                        <div class="button">8</div>
+                        <div class="button">5</div>
+                        <div class="button">2</div>
+                    </div>
+                    <div class="column">
+                        <div class="button">9</div>
+                        <div class="button">6</div>
+                        <div class="button">3</div>
+                    </div>
+                    <div class="column">
+                        <div class="button" style="font-weight: 700; text-transform: uppercase;">c</div>
+                        <div class="button">=</div>
+                        <div class="button">0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+
+        // Select all elements with class button
+        const selectAllButtons = document.querySelectorAll('.button');
+        // Select output field
+        const outputField = document.querySelector('.outputField');
+        // Add a click event listener to each button
+        selectAllButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // If user press equals evaluate contents of output field.
+                if(button.textContent === '=') {
+                    // Split textContent of outputField in order to select last item.
+                    let outputFieldContent = outputField.textContent.split('');
+                    const lastItemInArray = outputFieldContent[outputFieldContent.length - 1];
+                    // Prevent error when there is no number after math string character
+                    if (lastItemInArray === '+' || lastItemInArray === '*' || lastItemInArray === '/' || lastItemInArray === '-') {
+                        return false;
+                    } else {
+                        outputField.innerHTML = eval(outputField.textContent);
+                    }
+                } else if (button.textContent === 'c') {
+                    // Reset output field
+                    outputField.innerHTML = '';
+                } 
+                else {
+                    // Print each button content in outputField
+                    outputField.innerHTML = outputField.innerHTML + button.textContent;
+                }             
+            })
+        });
+    </script>    
+</body>
+</html>
